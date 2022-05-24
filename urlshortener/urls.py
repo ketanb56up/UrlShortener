@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import index
+from .views import urlShort, urlRedirect
 
 urlpatterns = [
-    path('event', index),  # create, replied and bounced msg
+    path("", urlShort, name="home"),
+    path("<str:slugs>", urlRedirect, name="redirect")  # create, replied and bounced msg
 ]
