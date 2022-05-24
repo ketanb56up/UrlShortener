@@ -13,9 +13,13 @@ def urlShort(request):
         if original_url is not None:
             slug = ''.join(random.choice(string.ascii_letters)
                            for x in range(10))
-            new_url = UrlData(url=original_url, slug=slug)
-            new_url.save()
-            return HttpResponse("short url is " + slug)
+            urlObj = UrlData.objects.filter(url=original_url, slug__isnull=False)
+            if urlObj.exists():
+                return HttpResponse("Slug already exists, Old slug is " + urlObj[0].slug)
+            else:
+                new_url = UrlData(url=original_url, slug=slug)
+                new_url.save()
+                return HttpResponse("short url is " + slug)
     return HttpResponse("Enter the Url in the browser tab.")
 
 
